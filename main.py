@@ -34,11 +34,13 @@ url_response = Label(  root,
 def checkURL():
 
     xgb_loaded = pickle.load(open(os.path.join('data_files','XGBoost_phishing_detector.pkl'), "rb"))
-    url = input_box.get("1.0", "end-1c")
+    url = input_box.get("1.0", "end-1c").strip()
     print(url)
 
-    url_features = np.array(getSaneFeatures(url)[1:]).reshape((1, 16))
-    # print(url_features)
+    url_features = np.array(getSaneFeatures(url)[1:])
+    print(url_features)
+    url_features = url_features.reshape((1, 16))
+
     X_test = pd.DataFrame(url_features, columns= feature_names[1:-1])
     # print(X_test)
     prediction = xgb_loaded.predict(X_test)[0]
